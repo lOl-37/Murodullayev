@@ -1,0 +1,5 @@
+Ism: Begi | Yosh: 2005 | Natija: Begi, sizga murakkab Backend loyihalar ustida ishlashni tavsiya qilaman!
+Ism: Max | Yosh: 2011 | Natija: Max, sizga murakkab Backend loyihalar ustida ishlashni tavsiya qilaman!
+Ism: 2011 | Yosh: 2005 | Natija: 2011, sizga murakkab Backend loyihalar ustida ishlashni tavsiya qilaman!
+Ism: C:\Users\admin\AppData\Local\Python\pythoncore-3.14-64\python.exe c:/Users/admin/Desktop/Python_Darslari/main.py | Yosh: 2001 | Natija: C:\Users\admin\AppData\Local\Python\pythoncore-3.14-64\python.exe c:/Users/admin/Desktop/Python_Darslari/main.py, sizga murakkab Backend loyihalar ustida ishlashni tavsiya qilaman!
+Ism: Begzod | Yosh: 2001 | Natija: Begzod, sizga murakkab Backend loyihalar ustida ishlashni tavsiya qilaman!
