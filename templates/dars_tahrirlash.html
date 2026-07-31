@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <title>Darsni tahrirlash</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background: #f4f7f6; }
+        .container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); max-width: 600px; }
+        input, textarea { width: 100%; padding: 10px; margin: 8px 0 20px 0; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        button { background: #28a745; color: white; padding: 12px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
+        button:hover { background: #218838; }
+        a { text-decoration: none; color: #007bff; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/dars/{{ dars.id }}">← Orqaga</a>
+        <h2>Darsni tahrirlash</h2>
+        <form method="post">
+            <label>Nomi:</label>
+            <input type="text" name="nomi" value="{{ dars.nomi }}" required>
+
+            <label>Darajasi:</label>
+            <input type="text" name="daraja" value="{{ dars.daraja }}" required>
+
+            <label>Tavsif (HTML qo'llab-quvvatlaydi):</label>
+            <textarea name="tavsif" rows="6" required>{{ dars.tavsif }}</textarea>
+
+            <label>Video URL (Embed):</label>
+            <input type="text" name="video_url" value="{{ dars.video_url or '' }}">
+
+            <label>Kodlar:</label>
+            <textarea name="kodlar" rows="6">{{ dars.kodlar or '' }}</textarea>
+
+            <button type="submit">Saqlash</button>
+        </form>
+    </div>
+</body>
+</html>
