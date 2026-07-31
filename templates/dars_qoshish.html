@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <title>Yangi dars qo'shish</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8f9fa; padding: 20px; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        h2 { margin-bottom: 20px; color: #2d3748; }
+        label { display: block; margin-bottom: 5px; font-weight: 600; }
+        input, textarea { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #cbd5e0; border-radius: 6px; font-size: 14px; }
+        textarea { height: 100px; }
+        button { background-color: #667eea; color: white; padding: 10px 20px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; }
+        button:hover { background-color: #5a67d8; }
+        a { display: inline-block; margin-top: 15px; color: #718096; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>➕ Yangi Dars Qo'shish</h2>
+        <form action="/dars-qoshish" method="post">
+            <label>Dars nomi:</label>
+            <input type="text" name="nomi" required>
+
+            <label>Darajasi (masalan: Boshlang'ich):</label>
+            <input type="text" name="daraja" required>
+
+            <label>Tavsif / Matn:</label>
+            <textarea name="tavsif" required></textarea>
+
+            <label>Video URL (YouTube embed yoki havola):</label>
+            <input type="text" name="video_url">
+
+            <label>Kodlar:</label>
+            <textarea name="kodlar"></textarea>
+
+            <button type="submit">Qo'shish</button>
+        </form>
+        <a href="/">← Bosh sahifaga qaytish</a>
+    </div>
+</body>
+</html>
