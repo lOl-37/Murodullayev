@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <title>Shaxsiy Profil</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8f9fa; color: #333; line-height: 1.6; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 20px; margin-bottom: 25px; }
+        h1 { color: #2d3748; }
+        .user-badge { background: #667eea; color: white; padding: 6px 15px; border-radius: 20px; font-weight: bold; }
+        .section { margin-bottom: 30px; }
+        .section h3 { margin-bottom: 15px; color: #4a5568; }
+        textarea { width: 100%; padding: 12px; border: 1px solid #cbd5e0; border-radius: 8px; margin-bottom: 10px; font-family: inherit; }
+        .btn-submit { background-color: #667eea; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 600; }
+        .btn-submit:hover { background-color: #5a67d8; }
+        .question-card { background: #f7fafc; padding: 15px; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid #319795; }
+        .btn-back { display: inline-block; background-color: #718096; color: white; padding: 10px 18px; border-radius: 6px; text-decoration: none; font-weight: 600; margin-top: 10px; }
+        .btn-back:hover { background-color: #4a5568; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Shaxsiy Profil</h1>
+            <div class="user-badge">👤 {{ username }}</div>
+        </header>
+
+        <!-- Adminga savol yo'llash -->
+        <div class="section">
+            <h3>Adminga savol yo'llash</h3>
+            <form action="/savol-yuborish" method="POST">
+                <textarea name="matn" rows="4" placeholder="Savolingizni shu yerga yozing..." required></textarea>
+                <button type="submit" class="btn-submit">Savol yuborish</button>
+            </form>
+        </div>
+
+        <!-- Yuborilgan savollar tarixi -->
+        <div class="section">
+            <h3>Sizning savollaringiz</h3>
+            {% for savol in savollar %}
+                <div class="question-card">
+                    <div>{{ savol.matn }}</div>
+                </div>
+            {% else %}
+                <p style="color: #a0aec0; font-size: 14px;">Hozircha adminga savol yubormagansiz.</p>
+            {% endfor %}
+        </div>
+
+        <a href="/" class="btn-back">← Bosh sahifaga qaytish</a>
+    </div>
+</body>
+</html>
