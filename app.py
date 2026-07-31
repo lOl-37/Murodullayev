@@ -168,3 +168,35 @@ def dars_delete(dars_id: int, db: Session = Depends(get_db), admin_session: str 
         db.delete(dars)
         db.commit()
     return RedirectResponse(url="/", status_code=303)
+    
+    # Yangi dars qo'shish sahifasi (GET)
+@app.get("/dars-qoshish")
+def dars_qoshish_form(request: Request, admin_session: str = Cookie(None)):
+    if admin_session != "authenticated":
+        return RedirectResponse(url="/login", status_code=303)
+    return templates.TemplateResponse(request, "dars_qoshish.html", {"request": request, "is_admin": True})
+
+# Yangi darsni saqlash (POST)
+@app.post("/dars-qoshish")
+def dars_qoshish(
+    nomi: str = Form(...),
+    daraja: str = Form(...),
+    tavsif: str = Form(...),
+    video_url: str = Form(None),
+    kodlar: str = Form(None),
+    db: Session = Depends(get_db),
+    admin_session: str = Cookie(None)
+):
+    if admin_session != "authenticated":
+        return RedirectResponse(url="/login", status_code=303)
+    
+    yangi_dars = DarsModel(
+        nomi=nomi,
+        daraja=daraja,
+        tavsif=tavsif,
+        video_url=video_url,
+        kodlar=kodlar
+    )
+    db.add(yangi_dars)
+    db.commit()
+    return RedirectResponse(url="/", status_code=303)
