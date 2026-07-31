@@ -1,1 +1,5 @@
-Flask==3.0.2
+fastapi
+uvicorn
+jinja2
+sqlalchemy
+python-multipart
