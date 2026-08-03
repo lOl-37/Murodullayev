@@ -1,4 +1,6 @@
-from fastapi import FastAPI, Request, Depends, Form, Response, Cookie
+import shutil
+import os
+from fastapi import FastAPI, Request, Depends, Form, Response, Cookie, UploadFile, File
 from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
@@ -72,14 +74,12 @@ def register(username: str = Form(...), password: str = Form(...), db: Session =
     db.commit()
     return RedirectResponse(url="/login", status_code=303)
 
-# Shaxsiy profil sahifasi
 @app.get("/profile")
 def profile_page(request: Request, db: Session = Depends(get_db), user_session: str = Cookie(None), admin_session: str = Cookie(None)):
     if not user_session and admin_session != "authenticated":
         return RedirectResponse(url="/login", status_code=303)
     
     current_user = admin_session == "authenticated" and "Admin" or user_session
-    # Foydalanuvchining o'z savollari
     savollar = db.query(SavolModel).filter(SavolModel.username == current_user).all()
     
     return templates.TemplateResponse(request, "profile.html", {
@@ -88,7 +88,6 @@ def profile_page(request: Request, db: Session = Depends(get_db), user_session: 
         "is_admin": admin_session == "authenticated"
     })
 
-# Adminga savol yuborish
 @app.post("/savol-yuborish")
 def send_question(matn: str = Form(...), db: Session = Depends(get_db), user_session: str = Cookie(None), admin_session: str = Cookie(None)):
     current_user = admin_session == "authenticated" and "Admin" or user_session
@@ -115,14 +114,29 @@ def dars_detail(request: Request, dars_id: int, db: Session = Depends(get_db), a
         "current_user": admin_session == "authenticated" and "Admin" or user_session
     })
 
-# Darsga izoh qo'shish
+# Darsga izoh qo'shish (rasm yuklash imkoniyati bilan)
 @app.post("/dars/{dars_id}/izoh")
-def add_comment(dars_id: int, matn: str = Form(...), db: Session = Depends(get_db), user_session: str = Cookie(None), admin_session: str = Cookie(None)):
+def add_comment(
+    dars_id: int, 
+    matn: str = Form(...), 
+    rasm: UploadFile = File(None), 
+    db: Session = Depends(get_db), 
+    user_session: str = Cookie(None), 
+    admin_session: str = Cookie(None)
+):
     current_user = admin_session == "authenticated" and "Admin" or user_session
     if not current_user:
         return RedirectResponse(url="/login", status_code=303)
     
-    new_izoh = IzohModel(dars_id=dars_id, username=current_user, matn=matn)
+    rasm_url = None
+    if rasm and rasm.filename:
+        os.makedirs("static", exist_ok=True)
+        file_path = f"static/{rasm.filename}"
+        with open(file_path, "wb") as buffer:
+            shutil.copyfileobj(rasm.file, buffer)
+        rasm_url = f"/{file_path}"
+
+    new_izoh = IzohModel(dars_id=dars_id, username=current_user, matn=matn, rasm=rasm_url)
     db.add(new_izoh)
     db.commit()
     return RedirectResponse(url=f"/dars/{dars_id}", status_code=303)
@@ -168,15 +182,13 @@ def dars_delete(dars_id: int, db: Session = Depends(get_db), admin_session: str 
         db.delete(dars)
         db.commit()
     return RedirectResponse(url="/", status_code=303)
-    
-    # Yangi dars qo'shish sahifasi (GET)
+
 @app.get("/dars-qoshish")
 def dars_qoshish_form(request: Request, admin_session: str = Cookie(None)):
     if admin_session != "authenticated":
         return RedirectResponse(url="/login", status_code=303)
     return templates.TemplateResponse(request, "dars_qoshish.html", {"request": request, "is_admin": True})
 
-# Yangi darsni saqlash (POST)
 @app.post("/dars-qoshish")
 def dars_qoshish(
     nomi: str = Form(...),
