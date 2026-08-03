@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <title>Kelgan savollar</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f9; padding: 20px; }
+        .container { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .savol-card { background: #f8f9fa; padding: 15px; border-radius: 5px; margin-bottom: 15px; border-left: 4px solid #6c63ff; }
+        .user { font-weight: bold; color: #333; margin-bottom: 5px; }
+        .btn-back { display: inline-block; margin-top: 20px; text-decoration: none; color: #6c63ff; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Foydalanuvchilardan kelgan savollar</h2>
+        <hr style="margin: 20px 0;">
+
+        {% if savollar %}
+            {% for savol in savollar %}
+                <div class="savol-card">
+                    <div class="user">Kimdan: 👤 {{ savol.username }}</div>
+                    <div>{{ savol.matn }}</div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p style="color: #666;">Hozircha hech qanday savol kelmagan.</p>
+        {% endif %}
+
+        <div>
+            <a href="/" class="btn-back">← Bosh sahifaga qaytish</a>
+        </div>
+    </div>
+</body>
+</html>
