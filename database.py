@@ -19,6 +19,9 @@ class Dars(Base):
 
     izohlar = relationship("Izoh", back_populates="dars", cascade="all, delete-orphan")
 
+# app.py dagi xatolikni oldini olish uchun alias
+DarsModel = Dars
+
 class Izoh(Base):
     __tablename__ = "izohlar"
 
@@ -26,9 +29,11 @@ class Izoh(Base):
     dars_id = Column(Integer, ForeignKey("darslar.id"))
     username = Column(String)
     matn = Column(Text)
-    rasm = Column(String, nullable=True)  # Rasm uchun yangi ustun
+    rasm = Column(String, nullable=True)
 
     dars = relationship("Dars", back_populates="izohlar")
+
+IzohModel = Izoh
 
 def init_db():
     Base.metadata.create_all(bind=engine)
