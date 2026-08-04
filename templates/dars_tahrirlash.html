@@ -4,36 +4,42 @@
     <meta charset="UTF-8">
     <title>Darsni tahrirlash</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; background: #f4f7f6; }
-        .container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); max-width: 600px; }
-        input, textarea { width: 100%; padding: 10px; margin: 8px 0 20px 0; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-        button { background: #28a745; color: white; padding: 12px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
-        button:hover { background: #218838; }
-        a { text-decoration: none; color: #007bff; }
+        body { font-family: Arial, sans-serif; background-color: #f4f4f9; padding: 20px; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        input, select, textarea { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+        button { background: #ffc107; color: black; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; font-size: 16px; font-weight: bold; }
+        .btn-back { display: inline-block; margin-top: 15px; text-decoration: none; color: #6c63ff; font-weight: bold; }
     </style>
 </head>
 <body>
     <div class="container">
-        <a href="/dars/{{ dars.id }}">← Orqaga</a>
         <h2>Darsni tahrirlash</h2>
-        <form method="post">
-            <label>Nomi:</label>
+        <form action="/dars/{{ dars.id }}/tahrirlash" method="POST" enctype="multipart/form-data">
+            <label>Dars nomi:</label>
             <input type="text" name="nomi" value="{{ dars.nomi }}" required>
 
             <label>Darajasi:</label>
-            <input type="text" name="daraja" value="{{ dars.daraja }}" required>
+            <select name="daraja">
+                <option value="Boshlang'ich" {% if dars.daraja == "Boshlang'ich" %}selected{% endif %}>Boshlang'ich</option>
+                <option value="O'rta" {% if dars.daraja == "O'rta" %}selected{% endif %}>O'rta</option>
+                <option value="Yuqori" {% if dars.daraja == "Yuqori" %}selected{% endif %}>Yuqori</option>
+            </select>
 
-            <label>Tavsif (HTML qo'llab-quvvatlaydi):</label>
-            <textarea name="tavsif" rows="6" required>{{ dars.tavsif }}</textarea>
+            <label>Tavsif:</label>
+            <textarea name="tavsif" rows="5" required>{{ dars.tavsif }}</textarea>
 
-            <label>Video URL (Embed):</label>
+            <label>Yangi rasm yuklash (o'zgartirish uchun):</label>
+            <input type="file" name="rasm" accept="image/*">
+
+            <label>Video URL:</label>
             <input type="text" name="video_url" value="{{ dars.video_url or '' }}">
 
             <label>Kodlar:</label>
-            <textarea name="kodlar" rows="6">{{ dars.kodlar or '' }}</textarea>
+            <textarea name="kodlar" rows="4">{{ dars.kodlar or '' }}</textarea>
 
             <button type="submit">Saqlash</button>
         </form>
+        <a href="/dars/{{ dars.id }}" class="btn-back">← Orqaga qaytish</a>
     </div>
 </body>
 </html>
