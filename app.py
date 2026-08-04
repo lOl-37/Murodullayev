@@ -21,6 +21,7 @@ class DarsModel(Base):
     tavsif = Column(Text)
     video_url = Column(String, nullable=True)
     kodlar = Column(Text, nullable=True)
+    rasm = Column(String, nullable=True) # <-- Dars rasmi uchun ustun
     izohlar = relationship("IzohModel", back_populates="dars", cascade="all, delete-orphan")
 
 class UserModel(Base):
@@ -210,6 +211,7 @@ def dars_edit(
     tavsif: str = Form(...),
     video_url: str = Form(None),
     kodlar: str = Form(None),
+    rasm: UploadFile = File(None),
     db: Session = Depends(get_db),
     admin_session: str = Cookie(None)
 ):
@@ -223,6 +225,14 @@ def dars_edit(
         dars.tavsif = tavsif
         dars.video_url = video_url
         dars.kodlar = kodlar
+        
+        if rasm and rasm.filename:
+            os.makedirs("static", exist_ok=True)
+            file_path = f"static/{rasm.filename}"
+            with open(file_path, "wb") as buffer:
+                shutil.copyfileobj(rasm.file, buffer)
+            dars.rasm = f"/{file_path}"
+            
         db.commit()
     return RedirectResponse(url=f"/dars/{dars_id}", status_code=303)
 
@@ -250,18 +260,28 @@ def dars_qoshish(
     tavsif: str = Form(...),
     video_url: str = Form(None),
     kodlar: str = Form(None),
+    rasm: UploadFile = File(None),
     db: Session = Depends(get_db),
     admin_session: str = Cookie(None)
 ):
     if admin_session != "authenticated":
         return RedirectResponse(url="/login", status_code=303)
     
+    rasm_url = None
+    if rasm and rasm.filename:
+        os.makedirs("static", exist_ok=True)
+        file_path = f"static/{rasm.filename}"
+        with open(file_path, "wb") as buffer:
+            shutil.copyfileobj(rasm.file, buffer)
+        rasm_url = f"/{file_path}"
+
     yangi_dars = DarsModel(
         nomi=nomi,
         daraja=daraja,
         tavsif=tavsif,
         video_url=video_url,
-        kodlar=kodlar
+        kodlar=kodlar,
+        rasm=rasm_url
     )
     db.add(yangi_dars)
     db.commit()
