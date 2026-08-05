@@ -14,7 +14,7 @@
 <body>
     <div class="container">
         <h2>Darsni tahrirlash</h2>
-        <form action="/dars/{{ dars.id }}/tahrirlash" method="POST" enctype="multipart/form-data">
+        <form action="/dars/{{ dars.id }}/tahrirlash" method="POST">
             <label>Dars nomi:</label>
             <input type="text" name="nomi" value="{{ dars.nomi }}" required>
 
@@ -25,11 +25,11 @@
                 <option value="Yuqori" {% if dars.daraja == "Yuqori" %}selected{% endif %}>Yuqori</option>
             </select>
 
-            <label>Tavsif:</label>
-            <textarea name="tavsif" rows="5" required>{{ dars.tavsif }}</textarea>
+            <label>Tavsif (Matn):</label>
+            <textarea name="tavsif" rows="8" required>{{ dars.tavsif }}</textarea>
 
-            <label>Yangi rasm yuklash (o'zgartirish uchun):</label>
-            <input type="file" name="rasm" accept="image/*">
+            <label>Rasm havolasi (URL):</label>
+            <input type="text" name="rasm" value="{{ dars.rasm or '' }}" placeholder="https://example.com/rasm.png">
 
             <label>Video URL:</label>
             <input type="text" name="video_url" value="{{ dars.video_url or '' }}">
