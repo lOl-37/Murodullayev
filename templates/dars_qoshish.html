@@ -14,7 +14,7 @@
 <body>
     <div class="container">
         <h2>Yangi dars qo'shish</h2>
-        <form action="/dars-qoshish" method="POST" enctype="multipart/form-data">
+        <form action="/dars-qoshish" method="POST">
             <label>Dars nomi:</label>
             <input type="text" name="nomi" required>
 
@@ -25,11 +25,11 @@
                 <option value="Yuqori">Yuqori</option>
             </select>
 
-            <label>Tavsif:</label>
-            <textarea name="tavsif" rows="5" required></textarea>
+            <label>Tavsif (Matn):</label>
+            <textarea name="tavsif" rows="8" required></textarea>
 
-            <label>Dars rasmi (ixtiyoriy):</label>
-            <input type="file" name="rasm" accept="image/*">
+            <label>Rasm havolasi (URL):</label>
+            <input type="text" name="rasm" placeholder="https://example.com/rasm.png">
 
             <label>Video URL (ixtiyoriy):</label>
             <input type="text" name="video_url">
