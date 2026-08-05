@@ -29,16 +29,15 @@
             </div>
         {% endif %}
 
-        <div style="margin-top: 20px; line-height: 1.6;">
-            <p>{{ dars.tavsif }}</p>
-        </div>
-
-        <!-- Darsga biriktirilgan rasm -->
         {% if dars.rasm %}
-            <div style="margin: 20px 0;">
-                <img src="{{ dars.rasm }}" alt="Dars rasmi" style="max-width: 100%; border-radius: 8px; max-height: 400px;">
+            <div style="margin: 20px 0; text-align: center;">
+                <img src="{{ dars.rasm }}" alt="Dars rasmi" style="max-width: 100%; border-radius: 8px; max-height: 450px;">
             </div>
         {% endif %}
+
+        <div style="margin-top: 20px; line-height: 1.6; white-space: pre-line;">
+            <p>{{ dars.tavsif }}</p>
+        </div>
 
         {% if dars.video_url %}
             <div style="margin-top: 20px;">
